@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lucky Sevens</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+
+
+
+
+<style>
+
+h1 {
+font-family: 'Times New Roman', Times, serif;
+font-size: 100px;
+color: gold;
+}
+body {
+    background: black;
+    color: white;
+}
+
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+
+
+
+function play(){
+    var bet = Number(document.forms["lucky"]["bet"].value); //holds what value user types into form block
+    var money = bet; //converts bet into money variable
+    var oneDice; // math.random dice variable
+    var twoDice; // math.random dice variable
+    var totalDice; // sum of random dice 
+    var winnings = 0; // the most won thus far
+    var rolls = 0; //rolls left
+    var allRolls= 0; // roll count at highest amount won
+
+    if(money<=0){
+        alert("You need to bet money to play!");
+    }
+
+    else
+    
+    {
+        //if money is bet function will start
+        while(money > 0){
+
+
+    oneDice = rolling();
+    twoDice= rolling();
+    totalDice = oneDice + twoDice;
+    rolls++;
+            //takes random number sums and add increment to roll
+            
+            
+            // if sum of the two dice is not equal to 7 then money variable will decrease
+            if(totalDice != 7)
+            {
+                money--;
+                console.log("You lost!");
+            }
+
+            // if not then $4 will be added to variable and you have won the hand
+            else{
+                money += 4;
+                if(money > winnings)
+                {
+                    winnings += (money-winnings);
+                    allRolls = rolls;
+                }
+                console.log("You win!");
+            }
+        }
+    }
+
+
+//rolling function produces the numbers for the 1-7 dice randomly
+    function rolling() {
+    return Math.floor(Math.random() * 6) + 1;
+}
+
+
+
+
+//links variable data into form table
+    document.getElementById("results").style.display = "block";
+
+    document.getElementById("submitButton").innerText = "Play Again!";
+
+    document.getElementById("start").innerText = bet;
+
+    document.getElementById("rollsNum").innerText = rolls;
+
+    document.getElementById("winnings").innerText = winnings;
+
+    document.getElementById("allRolls").innerText = allRolls;
+    return false;
+}
+
+</script>
+
+
+<body>
+
+<div class="container col-6" >
+
+
+
+        <h1>Lucky Sevens!</h1>
+
+        <form name="lucky" onsubmit=" return play();">
+            
+            <!--begins play function when pressed-->
+
+            <label for="bet">Starting bet: </label>
+            <div class="input-group mb-">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+
+
+                <input type="number" id="bet" class="form-control" >
+                <div class="input-group-append">
+                    <span class="input-group-text">.00</span>
+                </div>
+            </div><br>
+            <div class="text-center">
+                <button type="submit" id="submitButton" class="btn btn-dark">Play!</button>
+            </div>
+        </form><br>
+
+        <table id="results" class="table table" style="display:none;">
+        <thead>
+            <tr>
+                <th>Results</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Starting Bet</td>
+                <td><span id="start"></span></td>
+            </tr>
+            <tr>
+                <td>Total Rolls Before Going Broke</td>
+                <td><span id="rollsNum"></span></td>
+            </tr>
+            <tr>
+                <td>Highest Amount Won</td>
+                <td><span id="winnings"></span></td>
+            </tr>
+            <tr>
+                <td>Roll Count at Hightest Amount Won</td>
+                <td><span id="allRolls"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    </div>
+
+
+    
+</body>
+</html>
